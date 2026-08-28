@@ -1,0 +1,742 @@
+{
+ "corte": "2026-08-27",
+ "generado": "2026-08-27",
+ "mauricio": {
+  "frentes": [
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "LOCAL",
+    "items": [
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - REVESTIMIENTOS DE PARED PORCELANATO",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - INST. ELECTRICA AMURADO TABLEROS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - INST. ELECTRICA CAÑERIAS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - INST. ELECTRICA CABLEADO",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "L. - INST. ELECTRICA BOCAS Y TOMAS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "LOCAL",
+      "tarea": "2.6 MONTAJE TABLERO SECCIONAL LOCAL",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     }
+    ],
+    "vence": "2026-08-28",
+    "bloq": 0,
+    "restr": 7
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "SUBSUELO · SALA DE MÁQUINAS",
+    "items": [
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "SUBSUELO · SALA DE MÁQUINAS",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA AMURADO TABLEROS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "SUBSUELO · SALA DE MÁQUINAS",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CAÑERIAS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "SUBSUELO · SALA DE MÁQUINAS",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "SUBSUELO · SALA DE MÁQUINAS",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CABLEADO",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     },
+     {
+      "obra": "GLOW 5",
+      "oid": "glow5",
+      "sector": "SUBSUELO · SALA DE MÁQUINAS",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA ARTEFACTOS",
+      "tipo": "Restringido por mano de obra",
+      "avance": 0,
+      "causa": null,
+      "familia": "Mano de obra",
+      "vence": "2026-08-28",
+      "resp": null
+     }
+    ],
+    "vence": "2026-08-28",
+    "bloq": 0,
+    "restr": 5
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 1",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - IMPERMEABILIZACION BALCONES",
+      "tipo": "Bloqueada",
+      "avance": 30,
+      "causa": "Los balcones del frente, estan las defensas, hasta terminar revoque exterior y colocar barandas no se podra finalizar.",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": null,
+      "parcial": false,
+      "resp": "Constructora"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - CARPETA CEMENTICIA BALCONES",
+      "tipo": "Bloqueada",
+      "avance": 15,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false,
+      "resp": "Constructora"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - BANQUINAS",
+      "tipo": "Bloqueada",
+      "avance": 80,
+      "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": "banquina del depto A",
+      "parcial": true,
+      "resp": "Constructora"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 90,
+      "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A. SOLO COCINA",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": "sólo la cocina del depto A",
+      "parcial": true,
+      "resp": "Subcontrato"
+     }
+    ],
+    "vence": null,
+    "bloq": 4,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 2",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - BANQUINAS",
+      "tipo": "Bloqueada",
+      "avance": 80,
+      "causa": "Solo faltará banquina del dpto A por tema de inspección de gas",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": "sólo la banquina del depto A",
+      "parcial": true,
+      "resp": "Constructora"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 70,
+      "causa": "2A - Cocina por gas y baño ppal por defensas. 2A Baños por defensas. 2C - Falta cocina por defensas.",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del 2A, cocina del 2C",
+      "parcial": true,
+      "resp": "Subcontrato"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - REVESTIMIENTOS DE PARED PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 80,
+      "causa": "Falta baño ppal del A por defensas.",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "baño principal del A",
+      "parcial": true,
+      "resp": "Subcontrato"
+     }
+    ],
+    "vence": null,
+    "bloq": 3,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 6",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 80,
+      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del A, cocina del C",
+      "parcial": true,
+      "resp": "Subcontrato"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - REVESTIMIENTOS DE PARED PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 80,
+      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del A, cocina del C",
+      "parcial": true,
+      "resp": "Subcontrato"
+     }
+    ],
+    "vence": null,
+    "bloq": 2,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 9",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - IMPERMEABILIZACION TERRAZAS",
+      "tipo": "Bloqueada",
+      "avance": 70,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false,
+      "resp": "Constructora"
+     },
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - REVESTIMIENTOS DE PISO PORCELANATO TERRAZA",
+      "tipo": "Bloqueada",
+      "avance": 0,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false,
+      "resp": "Subcontrato"
+     }
+    ],
+    "vence": null,
+    "bloq": 2,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 3",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 3",
+      "tarea": "PISO 3 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "tipo": "Bloqueada",
+      "avance": 90,
+      "causa": "Falta cocina del A por tema de inspeccion de GAS",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-02",
+      "alcance": "cocina del A",
+      "parcial": true,
+      "resp": "Subcontrato"
+     }
+    ],
+    "vence": null,
+    "bloq": 1,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 9 -AMENITIES",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 9 -AMENITIES",
+      "tarea": "A. - MAMPOSTERIA",
+      "tipo": "Bloqueada",
+      "avance": 90,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false,
+      "resp": "Constructora"
+     }
+    ],
+    "vence": null,
+    "bloq": 1,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 10",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PISO 10",
+      "tarea": "PISO 10 - CARPETA CEMENTICIA",
+      "tipo": "Bloqueada",
+      "avance": 95,
+      "causa": "Esta sin terminar carpeta interior, por habilitaciones parciales de GAS.",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-08-06",
+      "alcance": "la carpeta interior",
+      "parcial": true,
+      "resp": "Constructora"
+     }
+    ],
+    "vence": null,
+    "bloq": 1,
+    "restr": 0
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PALLIERES",
+    "items": [
+     {
+      "obra": "GLOW 3",
+      "oid": "glow3",
+      "sector": "PALLIERES",
+      "tarea": "PA - MAMPOSTERIA DE CIERRE DE PLENOS",
+      "tipo": "Bloqueada",
+      "avance": 0,
+      "causa": "Por falta de materiales de plomería no se pueden cerrar los plenos.",
+      "familia": "Falta de material",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-21",
+      "alcance": null,
+      "parcial": false,
+      "resp": "Constructora"
+     }
+    ],
+    "vence": null,
+    "bloq": 1,
+    "restr": 0
+   }
+  ],
+  "totales": {
+   "frenadas": 27,
+   "conCausa": 11,
+   "conResponsable": 15,
+   "vencidas": 111
+  },
+  "vencidasPorObra": [
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "n": 43
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "n": 22
+   },
+   {
+    "obra": "GLOW 6+",
+    "oid": "glow6",
+    "n": 8
+   },
+   {
+    "obra": "GLOW 7",
+    "oid": "glow7",
+    "n": 38
+   }
+  ],
+  "seLibera": [
+   {
+    "que": "Inspección de gas",
+    "fecha": "2026-08-31",
+    "tareas": 5,
+    "detalle": "Libera banquinas y cocinas del depto A en pisos 1, 2, 3 y la carpeta del 10.",
+    "obra": "GLOW 3"
+   }
+  ],
+  "faltan": [
+   {
+    "que": "Responsable con nombre",
+    "estado": "Sólo GLOW 5",
+    "detalle": "GLOW 5 tiene 20 contratistas en 417 de 544 tareas. GLOW 3 tiene el campo en 125 de 778 y sólo dice «Constructora» o «Subcontrato». GLOW 6+ y 7 casi vacío.",
+    "pedido": "Cargar la columna CONTRATISTA con el nombre real del que ejecuta."
+   },
+   {
+    "que": "Causa del bloqueo",
+    "estado": "Sólo GLOW 3",
+    "detalle": "29 tareas con motivo escrito en los comentarios del ítem. En las otras tres obras, ninguna.",
+    "pedido": "Escribir un renglón de causa cada vez que se marca una tarea frenada."
+   },
+   {
+    "que": "Fecha estimada de liberación",
+    "estado": "No existe",
+    "detalle": "Hoy se deduce leyendo comentarios sueltos. Sin esto no se puede separar lo que hay que apretar de lo que hay que esperar.",
+    "pedido": "Agregar una columna de fecha de liberación prevista en las tareas frenadas."
+   },
+   {
+    "que": "Qué arrastra cada bloqueo",
+    "estado": "No calculable en GLOW 3",
+    "detalle": "Sus 778 tareas tienen cero dependencias cargadas. GLOW 5, 6+ y 7 sí las tienen.",
+    "pedido": "Cargar precedencias en GLOW 3."
+   }
+  ]
+ },
+ "sumer": {
+  "obras": [
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "ppc": 48.6,
+    "avance": 66.3,
+    "avanceMetodo": "ponderado por duración",
+    "desvio": 31,
+    "finPlan": "2026-10-21",
+    "finProy": "2026-11-21",
+    "confianza": "alta",
+    "hitosVenc": 21,
+    "hitosTot": 63,
+    "vencidas": 43,
+    "frenadas": 15
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "ppc": null,
+    "avance": 71.57,
+    "avanceMetodo": "ponderado por duración",
+    "desvio": 88,
+    "finPlan": "2026-11-11",
+    "finProy": "2027-02-07",
+    "confianza": "media",
+    "hitosVenc": 2,
+    "hitosTot": 20,
+    "vencidas": 22,
+    "frenadas": 12
+   },
+   {
+    "obra": "GLOW 6+",
+    "oid": "glow6",
+    "ppc": null,
+    "avance": 14.1,
+    "avanceMetodo": "por etapa",
+    "desvio": 38,
+    "finPlan": "2028-05-02",
+    "finProy": "2028-06-09",
+    "confianza": "baja",
+    "hitosVenc": 0,
+    "hitosTot": 2,
+    "vencidas": 8,
+    "frenadas": 0
+   },
+   {
+    "obra": "GLOW 7",
+    "oid": "glow7",
+    "ppc": null,
+    "avance": 16.9,
+    "avanceMetodo": "por etapa",
+    "desvio": 41,
+    "finPlan": "2027-08-06",
+    "finProy": "2027-09-16",
+    "confianza": "baja",
+    "hitosVenc": 1,
+    "hitosTot": 12,
+    "vencidas": 38,
+    "frenadas": 0
+   }
+  ],
+  "ppc": {
+   "obra": "GLOW 3",
+   "valor": 48.6,
+   "banda": [
+    70,
+    85
+   ],
+   "produccion": {
+    "pct": 60,
+    "cumplidos": 15,
+    "total": 25
+   },
+   "liberacion": {
+    "pct": 11,
+    "cumplidos": 1,
+    "total": 9
+   },
+   "lectura": "Los equipos cumplen el 60 % de lo que se comprometen. Las liberaciones —destrabar material, conseguir una inspección, cerrar una compra— cumplen el 11 %. El cuello no está en la cuadrilla.",
+   "porEquipo": [
+    [
+     "Equipo Cesar",
+     80,
+     "4/5"
+    ],
+    [
+     "Equipo Troche",
+     71,
+     "5/7"
+    ],
+    [
+     "Equipo Miguel",
+     60,
+     "3/5"
+    ],
+    [
+     "Equipo Pablo",
+     33,
+     "4/12"
+    ],
+    [
+     "Compras",
+     17,
+     "1/6"
+    ]
+   ]
+  },
+  "causas": [
+   {
+    "causa": "Defensas de fachada",
+    "tareas": 7,
+    "sectores": 5,
+    "gestionable": true
+   },
+   {
+    "causa": "Falta de material",
+    "tareas": 6,
+    "sectores": 3,
+    "gestionable": true
+   },
+   {
+    "causa": "Inspección de gas",
+    "tareas": 5,
+    "sectores": 4,
+    "gestionable": false
+   },
+   {
+    "causa": "Contrato de durlock",
+    "tareas": 5,
+    "sectores": 3,
+    "gestionable": true
+   },
+   {
+    "causa": "Izaje de carpinterías",
+    "tareas": 2,
+    "sectores": 2,
+    "gestionable": true
+   },
+   {
+    "causa": "Equipo roto",
+    "tareas": 2,
+    "sectores": 1,
+    "gestionable": true
+   },
+   {
+    "causa": "Clima",
+    "tareas": 1,
+    "sectores": 1,
+    "gestionable": false
+   },
+   {
+    "causa": "Herramienta no disponible",
+    "tareas": 1,
+    "sectores": 1,
+    "gestionable": true
+   }
+  ],
+  "movimiento": [
+   {
+    "obra": "GLOW 3",
+    "fechas": 213,
+    "cierres": 11
+   },
+   {
+    "obra": "GLOW 5",
+    "fechas": 195,
+    "cierres": 1
+   },
+   {
+    "obra": "GLOW 6+",
+    "fechas": 443,
+    "cierres": 0
+   },
+   {
+    "obra": "GLOW 7",
+    "fechas": 1222,
+    "cierres": 2
+   }
+  ],
+  "faltan": [
+   {
+    "que": "PPC de tres obras",
+    "estado": "Sólo GLOW 3",
+    "detalle": "Es la única que carga partes semanales. En GLOW 5, 6+ y 7 la estructura existe y está vacía: 4, 8 y 4 registros, con 1, 0 y 1 causa escrita.",
+    "pedido": "Cargar el compromiso semanal como subelemento y sostenerlo 4 a 6 semanas seguidas."
+   },
+   {
+    "que": "Causas recurrentes",
+    "estado": "Sólo GLOW 3",
+    "detalle": "El gráfico de recurrencia necesita la causa con su semana. Sin partes semanales no hay serie.",
+    "pedido": "Mismo pedido que el PPC: sale del mismo registro."
+   },
+   {
+    "que": "Incidencia por etapa",
+    "estado": "No existe",
+    "detalle": "Sin peso de obra, el avance de GLOW 6+ y 7 se mide por duración de tarea y da 11 % y 7,6 % cuando la estructura está al 19 % y 45 %.",
+    "pedido": "Definir el peso de cada etapa: fundaciones, estructura, albañilería, instalaciones, terminaciones."
+   }
+  ]
+ }
+}
