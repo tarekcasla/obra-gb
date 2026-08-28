@@ -268,6 +268,74 @@ body {
   .causa-row { grid-template-columns:36px minmax(0,1fr); }
   .causa-row .tag { grid-column:1/-1; justify-self:start; }
 }
+
+/* ── filtro por obra ── */
+.filtro {
+  position:sticky; top:47px; z-index:40; background:var(--plane);
+  padding:12px 0 10px; margin-bottom:2px;
+  display:flex; gap:7px; flex-wrap:wrap; align-items:center;
+  border-bottom:1px solid var(--rule);
+}
+.filtro .lbl {
+  font-family:var(--display); font-size:9.5px; font-weight:700; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-muted); margin-right:4px;
+}
+.chip {
+  font:inherit; font-size:13px; color:var(--ink-2); background:var(--surface);
+  border:1px solid var(--rule); border-radius:20px; padding:5px 13px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px; white-space:nowrap; text-decoration:none;
+}
+.chip:hover { border-color:var(--rule-strong); color:var(--ink); }
+.chip i {
+  font-style:normal; font-family:var(--mono); font-size:11px; color:var(--ink-muted);
+  font-variant-numeric:tabular-nums;
+}
+.chip[aria-current="true"] {
+  background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600;
+}
+.chip[aria-current="true"] i { color:rgba(255,255,255,.72); }
+.chip.mudo { opacity:.55; }
+
+/* ── estado del dato de la obra ── */
+.dato { padding:14px 17px; display:grid; gap:10px; }
+.dato .cifras { display:flex; gap:26px; flex-wrap:wrap; }
+.dato .c { display:grid; gap:1px; }
+.dato .c b {
+  font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:-.03em; line-height:1;
+}
+.dato .c span {
+  font-family:var(--display); font-size:9px; font-weight:700; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--ink-muted);
+}
+.dato .c.mal b { color:var(--critical); }
+.dato .nota-dato {
+  font-size:12.5px; color:var(--ink-2); line-height:1.5;
+  border-top:1px solid var(--rule); padding-top:9px;
+}
+.vacio { padding:26px 20px; text-align:center; color:var(--ink-2); font-size:13.5px; }
+.simple { border-bottom:1px solid var(--rule); padding:11px 18px;
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center; }
+.simple:last-child { border-bottom:0; }
+.simple b { font-weight:600; font-size:13px; display:block; line-height:1.35; }
+.simple .meta { font-family:var(--mono); font-size:10.5px; color:var(--ink-muted); margin-top:2px; }
+.simple .pct { font-family:var(--mono); font-variant-numeric:tabular-nums; font-size:13px; text-align:right; }
+.met { display:block; font-family:var(--mono); font-size:9.5px; color:var(--ink-muted);
+  margin-top:2px; text-transform:none; letter-spacing:0; }
+.aviso { padding:11px 17px; font-size:12.5px; color:var(--ink-2); line-height:1.5;
+  border-top:1px solid var(--rule); background:var(--surface-2); }
+.aviso b { color:var(--warning); }
+.vacio b { display:block; font-family:var(--display); font-size:15px; color:var(--ink); margin-bottom:5px; }
+.tarea .estado {
+  font-family:var(--display); font-size:8.5px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; padding:1px 6px; border-radius:3px; margin-left:6px;
+}
+.tarea .estado.e-bloq { background:var(--critical-soft); color:var(--critical); }
+.tarea .estado.e-mo   { background:var(--serious-soft); color:var(--serious); }
+.tarea .estado.e-ret  { background:var(--warning-soft); color:var(--warning); }
+.tarea .estado.e-cur  { background:var(--accent-soft); color:var(--accent-ink); }
+.tarea .atraso { color:var(--critical); font-weight:600; }
+.pill.a { background:var(--critical); color:#fff; }
+.pill.s { background:var(--surface-3); color:var(--ink-muted); }
 </style>
 
 <header class="top">
@@ -311,30 +379,49 @@ body {
     <p id="obra-sub">—</p>
   </div>
 
+  <div class="filtro" id="f-obra"><span class="lbl">Obra</span></div>
+
   <section class="sec">
     <div class="sec-h">
       <span class="eyebrow">Frentes</span>
-      <h2>Ordenados por urgencia</h2>
+      <h2>Ordenados por atraso</h2>
       <span class="sub" id="fr-sub">—</span>
     </div>
     <div class="card" id="frentes"></div>
   </section>
 
+  <section class="sec" id="sec-curso">
+    <div class="sec-h">
+      <span class="eyebrow">Hoy</span>
+      <h2>En ejecución</h2>
+      <span class="sub" id="curso-sub">—</span>
+    </div>
+    <div class="card" id="curso"></div>
+  </section>
+
+  <section class="sec" id="sec-sinplan">
+    <div class="sec-h">
+      <span class="eyebrow">Carga incompleta</span>
+      <h2>Activas sin fecha en el plan</h2>
+      <span class="sub" id="sinplan-sub">—</span>
+    </div>
+    <div class="card" id="sinplan"></div>
+  </section>
+
   <section class="sec">
+    <div class="sec-h">
+      <span class="eyebrow">Estado del dato</span>
+      <h2>Con qué se arma esta vista</h2>
+    </div>
+    <div class="card" id="dato"></div>
+  </section>
+
+  <section class="sec" id="sec-libera">
     <div class="sec-h">
       <span class="eyebrow">No requiere apretar</span>
       <h2>Se libera solo</h2>
     </div>
     <div class="card" id="libera"></div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-h">
-      <span class="eyebrow">Contexto</span>
-      <h2>Vencidas por obra</h2>
-      <span class="sub">Pasaron su fecha y no están cerradas</span>
-    </div>
-    <div class="card" id="venc"></div>
   </section>
 
   <section class="sec">
@@ -353,15 +440,17 @@ body {
     <p id="dir-sub">—</p>
   </div>
 
+  <div class="filtro" id="f-dir"><span class="lbl">Obra</span></div>
+
   <section class="sec">
     <div class="sec-h">
       <span class="eyebrow">Cartera</span>
       <h2>Las cuatro obras</h2>
     </div>
-    <div class="card"><table class="tbl" id="t-obras"></table></div>
+    <div class="card"><table class="tbl" id="t-obras"></table><div id="t-aviso"></div></div>
   </section>
 
-  <section class="sec">
+  <section class="sec" id="sec-ppc">
     <div class="sec-h">
       <span class="eyebrow">Cumplimiento</span>
       <h2>Promesas cumplidas</h2>
@@ -398,506 +487,3078 @@ body {
 </div>
 
 <script type="application/json" id="seed">{
- "corte": "2026-08-27",
+ "corte": "2026-08-28",
  "generado": "2026-08-27",
  "mauricio": {
+  "obras": [
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "board": 18398874016,
+    "tareas": 778,
+    "activas": 81,
+    "frentes": 17,
+    "tareasProblema": 52,
+    "frenadas": 44,
+    "vencidas": 21,
+    "sinFecha": 1,
+    "conCausa": 9,
+    "conResp": 59
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "board": 18402983112,
+    "tareas": 540,
+    "activas": 103,
+    "frentes": 16,
+    "tareasProblema": 52,
+    "frenadas": 38,
+    "vencidas": 20,
+    "sinFecha": 1,
+    "conCausa": 0,
+    "conResp": 103
+   },
+   {
+    "oid": "glow6",
+    "obra": "GLOW 6+",
+    "board": 18398672766,
+    "tareas": 726,
+    "activas": 3,
+    "frentes": 1,
+    "tareasProblema": 1,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "conCausa": 0,
+    "conResp": 1
+   },
+   {
+    "oid": "glow7",
+    "obra": "GLOW 7",
+    "board": 18402983267,
+    "tareas": 619,
+    "activas": 37,
+    "frentes": 0,
+    "tareasProblema": 0,
+    "frenadas": 35,
+    "vencidas": 0,
+    "sinFecha": 36,
+    "conCausa": 0,
+    "conResp": 2
+   }
+  ],
   "frentes": [
    {
-    "obra": "GLOW 5",
-    "oid": "glow5",
-    "sector": "LOCAL",
+    "obra": "GLOW 6+",
+    "oid": "glow6",
+    "sector": "MATERIALES",
+    "vence": "2026-03-27",
+    "atrasoMax": 154,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 0,
     "items": [
      {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - REVESTIMIENTOS DE PARED PORCELANATO",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - INST. ELECTRICA AMURADO TABLEROS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - INST. ELECTRICA CAÑERIAS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - INST. ELECTRICA CABLEADO",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "L. - INST. ELECTRICA BOCAS Y TOMAS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "LOCAL",
-      "tarea": "2.6 MONTAJE TABLERO SECCIONAL LOCAL",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     }
-    ],
-    "vence": "2026-08-28",
-    "bloq": 0,
-    "restr": 7
-   },
-   {
-    "obra": "GLOW 5",
-    "oid": "glow5",
-    "sector": "SUBSUELO · SALA DE MÁQUINAS",
-    "items": [
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "SUBSUELO · SALA DE MÁQUINAS",
-      "tarea": "PISO SUBSUELO - INST. ELECTRICA AMURADO TABLEROS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "SUBSUELO · SALA DE MÁQUINAS",
-      "tarea": "PISO SUBSUELO - INST. ELECTRICA CAÑERIAS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "SUBSUELO · SALA DE MÁQUINAS",
-      "tarea": "PISO SUBSUELO - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "SUBSUELO · SALA DE MÁQUINAS",
-      "tarea": "PISO SUBSUELO - INST. ELECTRICA CABLEADO",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     },
-     {
-      "obra": "GLOW 5",
-      "oid": "glow5",
-      "sector": "SUBSUELO · SALA DE MÁQUINAS",
-      "tarea": "PISO SUBSUELO - INST. ELECTRICA ARTEFACTOS",
-      "tipo": "Restringido por mano de obra",
-      "avance": 0,
-      "causa": null,
-      "familia": "Mano de obra",
-      "vence": "2026-08-28",
-      "resp": null
-     }
-    ],
-    "vence": "2026-08-28",
-    "bloq": 0,
-    "restr": 5
-   },
-   {
-    "obra": "GLOW 3",
-    "oid": "glow3",
-    "sector": "PISO 1",
-    "items": [
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 1",
-      "tarea": "PISO 1 - IMPERMEABILIZACION BALCONES",
-      "tipo": "Bloqueada",
-      "avance": 30,
-      "causa": "Los balcones del frente, estan las defensas, hasta terminar revoque exterior y colocar barandas no se podra finalizar.",
-      "familia": "Defensas de fachada",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-17",
-      "alcance": null,
-      "parcial": false,
-      "resp": "Constructora"
-     },
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 1",
-      "tarea": "PISO 1 - CARPETA CEMENTICIA BALCONES",
-      "tipo": "Bloqueada",
-      "avance": 15,
+      "tarea": "REMITO 125",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 50,
+      "ini": "2026-03-18",
+      "fin": "2026-03-27",
+      "vencidaDias": 154,
+      "sinFecha": false,
+      "resp": "ELECTRICISTA",
       "causa": null,
       "familia": null,
       "autor": null,
       "fechaCausa": null,
       "alcance": null,
-      "parcial": false,
-      "resp": "Constructora"
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PLANTA BAJA",
+    "vence": "2026-06-30",
+    "atrasoMax": 59,
+    "frenadas": 1,
+    "vencidas": 4,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO PB - INST. ELECTRICA AMURADO TABLEROS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 20,
+      "ini": "2026-06-22",
+      "fin": "2026-06-30",
+      "vencidaDias": 59,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      },
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 1",
-      "tarea": "PISO 1 - BANQUINAS",
-      "tipo": "Bloqueada",
-      "avance": 80,
-      "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A",
-      "familia": "Inspección de gas",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-17",
-      "alcance": "banquina del depto A",
-      "parcial": true,
-      "resp": "Constructora"
+      "tarea": "PISO PB - INST. ELECTRICA CAÑERIAS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 15,
+      "ini": "2026-07-02",
+      "fin": "2026-07-08",
+      "vencidaDias": 51,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      },
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 1",
-      "tarea": "PISO 1 - REVESTIMIENTOS DE PISO PORCELANATO",
-      "tipo": "Bloqueada",
+      "tarea": "PISO PB - INST. ELECTRICA CABLEADO",
+      "estado": "Iniciada",
+      "corto": "En curso",
       "avance": 90,
-      "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A. SOLO COCINA",
-      "familia": "Inspección de gas",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-17",
-      "alcance": "sólo la cocina del depto A",
-      "parcial": true,
-      "resp": "Subcontrato"
+      "ini": "2026-07-06",
+      "fin": "2026-07-10",
+      "vencidaDias": 49,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-07-06",
+      "fin": "2026-07-12",
+      "vencidaDias": 47,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN ALBAÑILERÍA",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-10-16",
+      "fin": "2026-10-16",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "OSCAR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 4,
-    "restr": 0
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "ÁREAS COMUNES · ALBAÑILERÍA",
+    "vence": "2026-07-04",
+    "atrasoMax": 55,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 3,
+    "items": [
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-07-04",
+      "fin": "2026-07-04",
+      "vencidaDias": 55,
+      "sinFecha": false,
+      "resp": "MARMOLERO",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
-    "sector": "PISO 2",
+    "sector": "EXTERIOR · FACHADAS",
+    "vence": "2026-07-31",
+    "atrasoMax": 28,
+    "frenadas": 0,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 4,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 2",
-      "tarea": "PISO 2 - BANQUINAS",
-      "tipo": "Bloqueada",
-      "avance": 80,
-      "causa": "Solo faltará banquina del dpto A por tema de inspección de gas",
-      "familia": "Inspección de gas",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-17",
-      "alcance": "sólo la banquina del depto A",
-      "parcial": true,
-      "resp": "Constructora"
-     },
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 2",
-      "tarea": "PISO 2 - REVESTIMIENTOS DE PISO PORCELANATO",
-      "tipo": "Bloqueada",
-      "avance": 70,
-      "causa": "2A - Cocina por gas y baño ppal por defensas. 2A Baños por defensas. 2C - Falta cocina por defensas.",
-      "familia": "Defensas de fachada",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-24",
-      "alcance": "cocina y baño del 2A, cocina del 2C",
-      "parcial": true,
-      "resp": "Subcontrato"
-     },
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 2",
-      "tarea": "PISO 2 - REVESTIMIENTOS DE PARED PORCELANATO",
-      "tipo": "Bloqueada",
-      "avance": 80,
-      "causa": "Falta baño ppal del A por defensas.",
-      "familia": "Defensas de fachada",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-24",
-      "alcance": "baño principal del A",
-      "parcial": true,
-      "resp": "Subcontrato"
+      "tarea": "PINTURA - FACHADA MARCOS PAZ",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 92,
+      "ini": "2026-06-15",
+      "fin": "2026-07-31",
+      "vencidaDias": 28,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 3,
-    "restr": 0
-   },
-   {
-    "obra": "GLOW 3",
-    "oid": "glow3",
-    "sector": "PISO 6",
-    "items": [
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 6",
-      "tarea": "PISO 6 - REVESTIMIENTOS DE PISO PORCELANATO",
-      "tipo": "Bloqueada",
-      "avance": 80,
-      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
-      "familia": "Defensas de fachada",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-24",
-      "alcance": "cocina y baño del A, cocina del C",
-      "parcial": true,
-      "resp": "Subcontrato"
-     },
-     {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 6",
-      "tarea": "PISO 6 - REVESTIMIENTOS DE PARED PORCELANATO",
-      "tipo": "Bloqueada",
-      "avance": 80,
-      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
-      "familia": "Defensas de fachada",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-24",
-      "alcance": "cocina y baño del A, cocina del C",
-      "parcial": true,
-      "resp": "Subcontrato"
-     }
-    ],
-    "vence": null,
-    "bloq": 2,
-    "restr": 0
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
     "sector": "PISO 9",
+    "vence": "2026-08-03",
+    "atrasoMax": 25,
+    "frenadas": 4,
+    "vencidas": 3,
+    "sinFecha": 0,
+    "enCurso": 1,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 9",
-      "tarea": "PISO 9 - IMPERMEABILIZACION TERRAZAS",
-      "tipo": "Bloqueada",
-      "avance": 70,
+      "tarea": "PISO 9 - YESO MUROS PROY.",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 90,
+      "ini": "2026-07-21",
+      "fin": "2026-08-03",
+      "vencidaDias": 25,
+      "sinFecha": false,
+      "resp": "Subcontrato",
       "causa": null,
       "familia": null,
       "autor": null,
       "fechaCausa": null,
       "alcance": null,
-      "parcial": false,
-      "resp": "Constructora"
+      "parcial": false
      },
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 9",
+      "tarea": "PISO 9 - IMPERMEABILIZACION TERRAZAS",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 70,
+      "ini": "2026-08-03",
+      "fin": "2026-08-07",
+      "vencidaDias": 21,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
       "tarea": "PISO 9 - REVESTIMIENTOS DE PISO PORCELANATO TERRAZA",
-      "tipo": "Bloqueada",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
       "avance": 0,
+      "ini": "2026-08-17",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Subcontrato",
       "causa": null,
       "familia": null,
       "autor": null,
       "fechaCausa": null,
       "alcance": null,
-      "parcial": false,
-      "resp": "Subcontrato"
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 9 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-11",
+      "fin": "2026-09-16",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 2,
-    "restr": 0
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
-    "sector": "PISO 3",
+    "sector": "PISO 8",
+    "vence": "2026-08-04",
+    "atrasoMax": 24,
+    "frenadas": 1,
+    "vencidas": 3,
+    "sinFecha": 0,
+    "enCurso": 2,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 3",
-      "tarea": "PISO 3 - REVESTIMIENTOS DE PISO PORCELANATO",
-      "tipo": "Bloqueada",
-      "avance": 90,
-      "causa": "Falta cocina del A por tema de inspeccion de GAS",
-      "familia": "Inspección de gas",
-      "autor": "Luis Fontana",
-      "fechaCausa": "2026-07-02",
-      "alcance": "cocina del A",
-      "parcial": true,
-      "resp": "Subcontrato"
+      "tarea": "PISO 8 - REVESTIMIENTOS DE PARED PORCELANATO",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 25,
+      "ini": "2026-07-27",
+      "fin": "2026-08-04",
+      "vencidaDias": 24,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 8 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-07-27",
+      "fin": "2026-08-04",
+      "vencidaDias": 24,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 8 - PLACA DE YESO EST.",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-08-18",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 8 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-08-28",
+      "fin": "2026-09-01",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": null,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 1,
-    "restr": 0
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
-    "sector": "PISO 9 -AMENITIES",
+    "sector": "PISO 9 · AMENITIES",
+    "vence": "2026-08-07",
+    "atrasoMax": 21,
+    "frenadas": 2,
+    "vencidas": 2,
+    "sinFecha": 0,
+    "enCurso": 1,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 9 -AMENITIES",
       "tarea": "A. - MAMPOSTERIA",
-      "tipo": "Bloqueada",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
       "avance": 90,
+      "ini": "2026-05-01",
+      "fin": "2026-08-07",
+      "vencidaDias": 21,
+      "sinFecha": false,
+      "resp": "Constructora",
       "causa": null,
       "familia": null,
       "autor": null,
       "fechaCausa": null,
       "alcance": null,
-      "parcial": false,
-      "resp": "Constructora"
+      "parcial": false
+     },
+     {
+      "tarea": "A. - CONTRAPISO TERRAZA",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-08-10",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": null,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "A. - ESTRUCTURA DE CUBIERTA",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-08-31",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 1,
-    "restr": 0
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "ÁREAS COMUNES · GENERAL",
+    "vence": "2026-08-07",
+    "atrasoMax": 21,
+    "frenadas": 3,
+    "vencidas": 2,
+    "sinFecha": 0,
+    "enCurso": 0,
+    "items": [
+     {
+      "tarea": "HE15 - BARANDA ESCALERA",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 95,
+      "ini": "2026-04-01",
+      "fin": "2026-08-07",
+      "vencidaDias": 21,
+      "sinFecha": false,
+      "resp": "BULAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "HE14 - PASAMANOS ESCALERA",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 90,
+      "ini": "2026-04-20",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "BULAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-10-15",
+      "fin": "2026-10-15",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "VIDRIERO",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
     "sector": "PISO 10",
+    "vence": "2026-08-13",
+    "atrasoMax": 15,
+    "frenadas": 2,
+    "vencidas": 3,
+    "sinFecha": 0,
+    "enCurso": 0,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PISO 10",
+      "tarea": "PISO 10 - CONTRAPISO TERRAZA",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-08-10",
+      "fin": "2026-08-13",
+      "vencidaDias": 15,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 10 - IMPERMEABILIZACION DE TERRAZAS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-08-03",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 10 - INST. SANITARIA DESAGUES CANTEROS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 85,
+      "ini": "2026-07-13",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
       "tarea": "PISO 10 - CARPETA CEMENTICIA",
-      "tipo": "Bloqueada",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
       "avance": 95,
+      "ini": "2026-06-29",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
       "causa": "Esta sin terminar carpeta interior, por habilitaciones parciales de GAS.",
       "familia": "Inspección de gas",
       "autor": "Luis Fontana",
       "fechaCausa": "2026-08-06",
       "alcance": "la carpeta interior",
-      "parcial": true,
-      "resp": "Constructora"
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 10 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-21",
+      "fin": "2026-09-22",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 1,
-    "restr": 0
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 6",
+    "vence": "2026-08-14",
+    "atrasoMax": 14,
+    "frenadas": 3,
+    "vencidas": 2,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO 6 - REVESTIMIENTOS DE PARED PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 80,
+      "ini": "2026-06-29",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del A, cocina del C",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 6 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 80,
+      "ini": "2026-06-29",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del A, cocina del C",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 6 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-03",
+      "fin": "2026-09-07",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "ÁREAS COMUNES · INSTALACIONES",
+    "vence": "2026-08-14",
+    "atrasoMax": 14,
+    "frenadas": 2,
+    "vencidas": 3,
+    "sinFecha": 0,
+    "enCurso": 0,
+    "items": [
+     {
+      "tarea": "A.C - INSTALACIÓN ELÉCTRICA Bastidores, teclas, puntos y tapas",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 50,
+      "ini": "2026-04-13",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "A.C - INSTALACIÓN ELÉCTRICA TABLEROS ARMADO E INSTALACION",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-04-13",
+      "fin": "2026-08-14",
+      "vencidaDias": 14,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-08-23",
+      "fin": "2026-08-23",
+      "vencidaDias": 5,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-02",
+      "fin": "2026-09-02",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "COLOCADOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "ASCENSOR",
+    "vence": "2026-08-19",
+    "atrasoMax": 9,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 0,
+    "items": [
+     {
+      "tarea": "ASC - COLOCACION DE PUERTAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": null,
+      "ini": "2026-08-13",
+      "fin": "2026-08-19",
+      "vencidaDias": 9,
+      "sinFecha": false,
+      "resp": null,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "LOCAL",
+    "vence": "2026-08-21",
+    "atrasoMax": 7,
+    "frenadas": 5,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 1,
+    "items": [
+     {
+      "tarea": "L. - MAMPOSTERIA",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 70,
+      "ini": "2026-07-13",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA AMURADO TABLEROS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-07",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA CAÑERIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-07",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-07",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - PRE INSTALACION Y CANALIZACION A.A",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-28",
+      "fin": "2026-10-02",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 2",
+    "vence": "2026-08-21",
+    "atrasoMax": 7,
+    "frenadas": 5,
+    "vencidas": 3,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO 2 - BANQUINAS",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 80,
+      "ini": "2026-07-01",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": "Solo faltará banquina del dpto A por tema de inspección de gas",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": "sólo la banquina del depto A",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 2 - REVESTIMIENTOS DE PARED PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 80,
+      "ini": "2026-07-23",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "Falta baño ppal del A por defensas.",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "baño principal del A",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 2 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 70,
+      "ini": "2026-07-17",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "2A - Cocina por gas y baño ppal por defensas. 2A Baños por defensas. 2C - Falta cocina por defensas.",
+      "familia": "Defensas de fachada",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-24",
+      "alcance": "cocina y baño del 2A, cocina del 2C",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 2 - CARPETA CEMENTICIA BALCONES",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 90,
+      "ini": "2026-07-17",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 2- PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-14",
+      "fin": "2026-09-16",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 3",
+    "vence": "2026-08-21",
+    "atrasoMax": 7,
+    "frenadas": 2,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 3,
+    "items": [
+     {
+      "tarea": "PISO 3 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 90,
+      "ini": "2026-06-01",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "Falta cocina del A por tema de inspeccion de GAS",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-02",
+      "alcance": "cocina del A",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 3 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-11",
+      "fin": "2026-09-15",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PLANTA BAJA",
+    "vence": "2026-08-21",
+    "atrasoMax": 7,
+    "frenadas": 7,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 1,
+    "items": [
+     {
+      "tarea": "PISO PB - MAMPOSTERIA",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-07-13",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - AMURE PUERTA ESCAPE SS Y CE",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": null,
+      "ini": "2026-08-20",
+      "fin": "2026-09-03",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - INST. SANITARIA CAÑERIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 15,
+      "ini": "2026-07-24",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - AMURE DE MARCOS DE PUERTAS INTERIORES",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": null,
+      "ini": "2026-09-03",
+      "fin": "2026-09-09",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - INST. ELECTRICA AMURADO TABLEROS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 50,
+      "ini": "2026-07-24",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - INST. ELECTRICA CAÑERIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-07-24",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-07-24",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO PB - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-21",
+      "fin": "2026-09-23",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": null,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 2",
+    "vence": "2026-08-21",
+    "atrasoMax": 7,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 4,
+    "items": [
+     {
+      "tarea": "PISO 2 - PINTURA INTERIOR ETAPA 1",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-08-18",
+      "fin": "2026-08-21",
+      "vencidaDias": 7,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 2 - TARQUINI BALCONES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 95,
+      "ini": "2026-09-09",
+      "fin": "2026-09-10",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "ROLANDO",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 1",
+    "vence": "2026-08-25",
+    "atrasoMax": 3,
+    "frenadas": 0,
+    "vencidas": 2,
+    "sinFecha": 0,
+    "enCurso": 6,
+    "items": [
+     {
+      "tarea": "PISO 1 - PINTURA INTERIOR ETAPA 1",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-08-21",
+      "fin": "2026-08-25",
+      "vencidaDias": 3,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 1 - COCINA A",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 85,
+      "ini": "2026-08-24",
+      "fin": "2026-08-26",
+      "vencidaDias": 2,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 3",
+    "vence": "2026-08-25",
+    "atrasoMax": 3,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 5,
+    "items": [
+     {
+      "tarea": "PISO 3 - ARTEFACTOS SANITARIOS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-08-24",
+      "fin": "2026-08-25",
+      "vencidaDias": 3,
+      "sinFecha": false,
+      "resp": "SANITARIAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 3 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-09-14",
+      "fin": "2026-09-16",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 5",
+    "vence": "2026-08-25",
+    "atrasoMax": 3,
+    "frenadas": 2,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 7,
+    "items": [
+     {
+      "tarea": "PISO 5 - ARTEFACTOS SANITARIOS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 80,
+      "ini": "2026-08-24",
+      "fin": "2026-08-25",
+      "vencidaDias": 3,
+      "sinFecha": false,
+      "resp": "SANITARIAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 5 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-09-07",
+      "fin": "2026-09-09",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-15",
+      "fin": "2026-09-15",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SANITARIAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 8",
+    "vence": "2026-08-25",
+    "atrasoMax": 3,
+    "frenadas": 2,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 4,
+    "items": [
+     {
+      "tarea": "PISO 8 - PINTURA DE PUERTA PRINCIPAL",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 30,
+      "ini": "2026-08-24",
+      "fin": "2026-08-25",
+      "vencidaDias": 3,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 8 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-08-26",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-10-08",
+      "fin": "2026-10-08",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 6",
+    "vence": "2026-08-26",
+    "atrasoMax": 2,
+    "frenadas": 2,
+    "vencidas": 2,
+    "sinFecha": 0,
+    "enCurso": 5,
+    "items": [
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-08-26",
+      "fin": "2026-08-26",
+      "vencidaDias": 2,
+      "sinFecha": false,
+      "resp": "SERVAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 6 - PINTURA DE PUERTA PRINCIPAL",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 30,
+      "ini": "2026-08-26",
+      "fin": "2026-08-27",
+      "vencidaDias": 1,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 6 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-09-02",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 7",
+    "vence": "2026-08-26",
+    "atrasoMax": 2,
+    "frenadas": 1,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 4,
+    "items": [
+     {
+      "tarea": "PISO 7 - PINTURA DE PUERTA PRINCIPAL",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "avance": 30,
+      "ini": "2026-08-25",
+      "fin": "2026-08-26",
+      "vencidaDias": 2,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 7 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-08-31",
+      "fin": "2026-09-02",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 9",
+    "vence": "2026-08-26",
+    "atrasoMax": 2,
+    "frenadas": 6,
+    "vencidas": 1,
+    "sinFecha": 0,
+    "enCurso": 5,
+    "items": [
+     {
+      "tarea": "FIN INSTALACIÓN ASCENSOR",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-08-26",
+      "fin": "2026-08-26",
+      "vencidaDias": 2,
+      "sinFecha": false,
+      "resp": "SERVAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 9 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-09-14",
+      "fin": "2026-09-16",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN PINTURA UF",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-22",
+      "fin": "2026-09-22",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN BALDINO UF",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-28",
+      "fin": "2026-09-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "BALDINO",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN NORAY",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-10-08",
+      "fin": "2026-10-08",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN BALDINO PB",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-10-10",
+      "fin": "2026-10-10",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "BALDINO",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "LOCAL",
+    "vence": "2026-08-28",
+    "atrasoMax": null,
+    "frenadas": 8,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 0,
+    "items": [
+     {
+      "tarea": "2.6 MONTAJE TABLERO SECCIONAL LOCAL",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA AMURADO TABLEROS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA BOCAS Y TOMAS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA CABLEADO",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA CAÑERIAS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "L. - REVESTIMIENTOS DE PARED PORCELANATO",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "COLOCADOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-30",
+      "fin": "2026-09-30",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "PINTOR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "SUBSUELO · SALA DE MÁQUINAS",
+    "vence": "2026-08-28",
+    "atrasoMax": null,
+    "frenadas": 5,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 0,
+    "items": [
+     {
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA AMURADO TABLEROS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CABLEADO",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CAÑERIAS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA CTES. DEBILES CAÑERIAS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-28",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA ARTEFACTOS",
+      "estado": "Restringido por Mano de Obra",
+      "corto": "Sin mano de obra",
+      "avance": 0,
+      "ini": "2026-08-24",
+      "fin": "2026-08-29",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "SIELPROM",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 5",
+    "oid": "glow5",
+    "sector": "PISO 4",
+    "vence": "2026-08-30",
+    "atrasoMax": null,
+    "frenadas": 2,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 5,
+    "items": [
+     {
+      "tarea": "FIN",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-08-30",
+      "fin": "2026-08-30",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "BULAS",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 4 - COCINA A",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 85,
+      "ini": "2026-09-09",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "NORAY",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 5",
+    "vence": "2026-08-31",
+    "atrasoMax": null,
+    "frenadas": 2,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO 5 - CARPETA CEMENTICIA BALCONES",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 75,
+      "ini": "2026-08-13",
+      "fin": "2026-08-31",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PISO 5 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-07",
+      "fin": "2026-09-09",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 1",
+    "vence": "2026-09-03",
+    "atrasoMax": null,
+    "frenadas": 2,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 1,
+    "items": [
+     {
+      "tarea": "PISO 1 - REVESTIMIENTOS DE PISO PORCELANATO",
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": 90,
+      "ini": "2026-07-14",
+      "fin": "2026-09-03",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A. SOLO COCINA",
+      "familia": "Inspección de gas",
+      "autor": "Luis Fontana",
+      "fechaCausa": "2026-07-17",
+      "alcance": "sólo la cocina del depto A",
+      "parcial": true
+     },
+     {
+      "tarea": "PISO 1 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-16",
+      "fin": "2026-09-18",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   },
+   {
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 7",
+    "vence": "2026-09-03",
+    "atrasoMax": null,
+    "frenadas": 1,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO 7 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-01",
+      "fin": "2026-09-03",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
    },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
     "sector": "PALLIERES",
+    "vence": "2026-09-04",
+    "atrasoMax": null,
+    "frenadas": 4,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 3,
     "items": [
      {
-      "obra": "GLOW 3",
-      "oid": "glow3",
-      "sector": "PALLIERES",
+      "tarea": "PA - INSTALACION GAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 90,
+      "ini": "2026-05-25",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PA - INSTALACION SANITARIAS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 80,
+      "ini": "2026-06-01",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
+      "tarea": "PA - INSTALACIÓN ELÉCTRICA CABLEADOS",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": null,
+      "ini": "2026-07-23",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     },
+     {
       "tarea": "PA - MAMPOSTERIA DE CIERRE DE PLENOS",
-      "tipo": "Bloqueada",
-      "avance": 0,
+      "estado": "Bloqueada",
+      "corto": "Bloqueada",
+      "avance": null,
+      "ini": "2026-07-13",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Constructora",
       "causa": "Por falta de materiales de plomería no se pueden cerrar los plenos.",
       "familia": "Falta de material",
       "autor": "Luis Fontana",
       "fechaCausa": "2026-07-21",
       "alcance": null,
-      "parcial": false,
-      "resp": "Constructora"
+      "parcial": false
      }
-    ],
-    "vence": null,
-    "bloq": 1,
-    "restr": 0
-   }
-  ],
-  "totales": {
-   "frenadas": 27,
-   "conCausa": 11,
-   "conResponsable": 15,
-   "vencidas": 111
-  },
-  "vencidasPorObra": [
+    ]
+   },
    {
     "obra": "GLOW 3",
     "oid": "glow3",
-    "n": 43
+    "sector": "SUBSUELO · SALA DE MÁQUINAS",
+    "vence": "2026-09-04",
+    "atrasoMax": null,
+    "frenadas": 1,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 1,
+    "items": [
+     {
+      "tarea": "PISO SUBSUELO - ARMADO POZO BOMB. PLUV.",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": null,
+      "ini": "2026-09-01",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": null,
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
    },
    {
     "obra": "GLOW 5",
     "oid": "glow5",
-    "n": 22
+    "sector": "PISO 10 COWORK",
+    "vence": "2026-09-04",
+    "atrasoMax": null,
+    "frenadas": 1,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 1,
+    "items": [
+     {
+      "tarea": "FIN 1°a10° PISO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "avance": 0,
+      "ini": "2026-09-04",
+      "fin": "2026-09-04",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "OSCAR",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
    },
    {
-    "obra": "GLOW 6+",
+    "obra": "GLOW 3",
+    "oid": "glow3",
+    "sector": "PISO 4",
+    "vence": "2026-09-11",
+    "atrasoMax": null,
+    "frenadas": 1,
+    "vencidas": 0,
+    "sinFecha": 0,
+    "enCurso": 2,
+    "items": [
+     {
+      "tarea": "PISO 4 - PLACA DE YESO EMPLACADO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "avance": 0,
+      "ini": "2026-09-09",
+      "fin": "2026-09-11",
+      "vencidaDias": null,
+      "sinFecha": false,
+      "resp": "Subcontrato",
+      "causa": null,
+      "familia": null,
+      "autor": null,
+      "fechaCausa": null,
+      "alcance": null,
+      "parcial": false
+     }
+    ]
+   }
+  ],
+  "enCurso": [
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "LOCAL",
+    "tarea": "L. - INST. SANITARIA CAÑERIAS",
+    "avance": 20,
+    "ini": "2026-08-10",
+    "fin": "2026-08-28",
+    "resp": "Constructora"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 3",
+    "tarea": "PISO 3 - PLACA DE YESO EST.",
+    "avance": 33,
+    "ini": "2026-08-27",
+    "fin": "2026-08-28",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 9 · AMENITIES",
+    "tarea": "A.- CARPETA EXTERIOR TERRAZA",
+    "avance": 50,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "EXTERIOR · FACHADAS",
+    "tarea": "REVOQUE EXTERIOR - FACHADA BEIRÓ",
+    "avance": 14,
+    "ini": "2026-08-17",
+    "fin": "2026-08-28",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PALLIERES",
+    "tarea": "PA - AMURES",
+    "avance": 65,
+    "ini": "2026-08-03",
+    "fin": "2026-08-28",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 2",
+    "tarea": "PISO 2 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 30,
+    "ini": "2026-08-19",
+    "fin": "2026-09-04",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 3",
+    "tarea": "PISO 3 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 30,
+    "ini": "2026-08-13",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 4",
+    "tarea": "PISO 4 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 30,
+    "ini": "2026-08-21",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 5",
+    "tarea": "PISO 5 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 30,
+    "ini": "2026-08-24",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 6",
+    "tarea": "PISO 6 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 50,
+    "ini": "2026-08-13",
+    "fin": "2026-09-04",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 7",
+    "tarea": "PISO 7 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": null,
+    "ini": "2026-08-13",
+    "fin": "2026-09-04",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 8",
+    "tarea": "PISO 8 - REVESTIMIENTOS DE PISO PORCELANATO BALCONES",
+    "avance": 30,
+    "ini": "2026-08-25",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 9",
+    "tarea": "PISO 9 - CARPETA CEMENTICIA BALCONES",
+    "avance": 80,
+    "ini": "2026-07-15",
+    "fin": "2026-09-04",
+    "resp": "Constructora"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "EXTERIOR · FACHADAS",
+    "tarea": "REVOQUE EXTERIOR - FACHADA CONTRAFRENTE",
+    "avance": 60,
+    "ini": "2026-04-24",
+    "fin": "2026-09-04",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "EXTERIOR · FACHADAS",
+    "tarea": "REVOQUE EXTERIOR - FACHADA BENITO JUÁREZ",
+    "avance": 50,
+    "ini": "2026-06-30",
+    "fin": "2026-09-04",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PALLIERES",
+    "tarea": "PA - REVOQUES",
+    "avance": 80,
+    "ini": "2026-08-13",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "SUBSUELO · SALA DE MÁQUINAS",
+    "tarea": "PISO SUBSUELO - INST. SANITARIA CAÑERIAS",
+    "avance": 10,
+    "ini": "2026-08-17",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 1",
+    "tarea": "PISO 1 - CARPINTERIA EXTERIOR",
+    "avance": 20,
+    "ini": "2026-08-24",
+    "fin": "2026-09-11",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 2",
+    "tarea": "PISO 2 - CARPINTERIA EXTERIOR",
+    "avance": 25,
+    "ini": "2026-08-24",
+    "fin": "2026-09-11",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 3",
+    "tarea": "PISO 3 - CARPINTERIA EXTERIOR",
+    "avance": 45,
+    "ini": "2026-08-24",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 4",
+    "tarea": "PISO 4 - CARPINTERIA EXTERIOR",
+    "avance": 55,
+    "ini": "2026-08-20",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 5",
+    "tarea": "PISO 5 - CARPINTERIA EXTERIOR",
+    "avance": 55,
+    "ini": "2026-08-20",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 6",
+    "tarea": "PISO 6 - CARPINTERIA EXTERIOR",
+    "avance": 20,
+    "ini": "2026-08-20",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 7",
+    "tarea": "PISO 7 - CARPINTERIA EXTERIOR",
+    "avance": 45,
+    "ini": "2026-08-20",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PISO 8",
+    "tarea": "PISO 8 - CARPINTERIA EXTERIOR",
+    "avance": 30,
+    "ini": "2026-08-26",
+    "fin": "2026-09-11",
+    "resp": null
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "EXTERIOR · FACHADAS",
+    "tarea": "PINTURA - FACHADA CONTRAFRENTE",
+    "avance": 60,
+    "ini": "2026-07-14",
+    "fin": "2026-09-11",
+    "resp": "Subcontrato"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PALLIERES",
+    "tarea": "PA - INSTALACIONES DE INCENDIO",
+    "avance": 100,
+    "ini": "2026-07-06",
+    "fin": "2026-09-11",
+    "resp": "Constructora"
+   },
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "sector": "PLANTA BAJA",
+    "tarea": "PISO PB - REVOQUE 2 EN 1",
+    "avance": 50,
+    "ini": "2026-08-26",
+    "fin": "2026-09-18",
+    "resp": null
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 9",
+    "tarea": "PISO 9 - COLOCACION DE TIMBRES",
+    "avance": 50,
+    "ini": "2026-08-28",
+    "fin": "2026-08-28",
+    "resp": "C DEBILES HUGO"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 8",
+    "tarea": "PISO 8 - COCINA B",
+    "avance": 85,
+    "ini": "2026-08-26",
+    "fin": "2026-08-28",
+    "resp": "NORAY"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 8",
+    "tarea": "PISO 8 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-19",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 7",
+    "tarea": "PISO 7 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-19",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 6",
+    "tarea": "PISO 6 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 5",
+    "tarea": "PISO 5 - REVESTIMIENTO PISO PORCELANATO BALCONES",
+    "avance": 45,
+    "ini": "2026-08-27",
+    "fin": "2026-08-28",
+    "resp": "COLOCADOR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 5",
+    "tarea": "PISO 5 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 5",
+    "tarea": "PISO 5 - PINTURA DE PUERTA PRINCIPAL",
+    "avance": 20,
+    "ini": "2026-08-27",
+    "fin": "2026-08-28",
+    "resp": "PINTOR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 4",
+    "tarea": "PISO 4 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 2",
+    "tarea": "PISO 2 - PARRILLA HERRERIA",
+    "avance": 75,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 1",
+    "tarea": "PISO 1 - PARRILLA HERRERIA",
+    "avance": 75,
+    "ini": "2026-08-24",
+    "fin": "2026-08-28",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PLANTA BAJA",
+    "tarea": "PISO PB - REVESTIMIENTOS DE PISO PORCELANATO",
+    "avance": 50,
+    "ini": "2026-08-18",
+    "fin": "2026-08-28",
+    "resp": "COLOCADOR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "ÁREAS COMUNES · ALBAÑILERÍA",
+    "tarea": "A.C - CONTRAPISOS",
+    "avance": 80,
+    "ini": "2026-08-13",
+    "fin": "2026-08-28",
+    "resp": "OSCAR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 4",
+    "tarea": "PISO 4 - PINTURA DE PUERTA PRINCIPAL",
+    "avance": 25,
+    "ini": "2026-08-28",
+    "fin": "2026-08-29",
+    "resp": "PINTOR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PLANTA BAJA",
+    "tarea": "PISO PB - MAMPOSTERIA PLENOS GENERALES",
+    "avance": 75,
+    "ini": "2026-08-24",
+    "fin": "2026-08-30",
+    "resp": "OSCAR"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 9",
+    "tarea": "PISO 9 - PARRILLA HERRERIA",
+    "avance": 40,
+    "ini": "2026-08-24",
+    "fin": "2026-09-04",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "PISO 3",
+    "tarea": "PISO 3 - PARRILLA HERRERIA",
+    "avance": 80,
+    "ini": "2026-08-24",
+    "fin": "2026-09-04",
+    "resp": "BULAS"
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "sector": "ÁREAS COMUNES · ALBAÑILERÍA",
+    "tarea": "A.C - REVOQUES",
+    "avance": 85,
+    "ini": "2026-08-19",
+    "fin": "2026-09-18",
+    "resp": "OSCAR"
+   },
+   {
     "oid": "glow6",
-    "n": 8
+    "obra": "GLOW 6+",
+    "sector": "FUNDACIONES",
+    "tarea": "RETIRO DE SUELO TOTAL",
+    "avance": 80,
+    "ini": "2025-12-02",
+    "fin": "2026-08-28",
+    "resp": null
    },
    {
-    "obra": "GLOW 7",
+    "oid": "glow6",
+    "obra": "GLOW 6+",
+    "sector": "FUNDACIONES",
+    "tarea": "EXCAVACIÓN BASES Y PLATEA FRENTE",
+    "avance": 50,
+    "ini": "2026-08-04",
+    "fin": "2026-09-04",
+    "resp": null
+   },
+   {
     "oid": "glow7",
-    "n": 38
+    "obra": "GLOW 7",
+    "sector": "PISO 4",
+    "tarea": "PISO 4 - ESTRUCTURA Ho. Ao.",
+    "avance": 0,
+    "ini": "2026-08-21",
+    "fin": "2026-09-24",
+    "resp": "Gimenez"
+   }
+  ],
+  "sinPlan": [
+   {
+    "oid": "glow3",
+    "obra": "GLOW 3",
+    "n": 1,
+    "sectores": 1,
+    "items": [
+     {
+      "sector": "PROYECTO",
+      "tarea": "CÓMPUTO Y PRESUPUESTO",
+      "estado": "Retrasada",
+      "corto": "Retrasada",
+      "resp": null
+     }
+    ]
+   },
+   {
+    "oid": "glow5",
+    "obra": "GLOW 5",
+    "n": 1,
+    "sectores": 1,
+    "items": [
+     {
+      "sector": "PISO 9",
+      "tarea": "2.4 MONTAJE TABLERO SECCIONAL BOMBAS",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "resp": "SIELPROM"
+     }
+    ]
+   },
+   {
+    "oid": "glow7",
+    "obra": "GLOW 7",
+    "n": 36,
+    "sectores": 12,
+    "items": [
+     {
+      "sector": "FUNDACIONES",
+      "tarea": "EXCAVACIÓN PARA PISCINA",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "SUBSUELO",
+      "tarea": "PISO SUBSUELO - INST. ELECTRICA - PUESTA A TIERRA",
+      "estado": "Iniciada",
+      "corto": "En curso",
+      "resp": "Carlos Rios"
+     },
+     {
+      "sector": "SUBSUELO",
+      "tarea": "PISO SUBSUELO - PUERTA INGRESO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PLANTA BAJA",
+      "tarea": "PISO PB - PUERTA INGRESO PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PLANTA BAJA",
+      "tarea": "PISO PB - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 1",
+      "tarea": "PISO 1 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 2",
+      "tarea": "PISO 2 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 4",
+      "tarea": "PISO 4 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 4",
+      "tarea": "PISO 4 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 5",
+      "tarea": "PISO 5 - PUERTA INGRESO DEPTO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 5",
+      "tarea": "PISO 5 - HOJAS PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 5",
+      "tarea": "PISO 5 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 5",
+      "tarea": "PISO 5 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - PUERTA INGRESO DEPTO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - HOJAS PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 6",
+      "tarea": "PISO 6 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 7",
+      "tarea": "PISO 7 - PUERTA INGRESO DEPTO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 7",
+      "tarea": "PISO 7- HOJAS PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 7",
+      "tarea": "PISO 7 - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 7",
+      "tarea": "PISO 7 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 7",
+      "tarea": "PISO 7 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 8",
+      "tarea": "PISO 8 - PUERTA INGRESO DEPTO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 8",
+      "tarea": "PISO 8 - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 8",
+      "tarea": "PISO 8 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 8",
+      "tarea": "PISO 8 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - PUERTA INGRESO DEPTO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - ENCHAPADO DE PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "PISO 9",
+      "tarea": "PISO 9 - COLOCACION DE CERRADURA ELEC. PUERTA PRINCIPAL",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "LOCAL",
+      "tarea": "L. - PUERTA INGRESO",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     },
+     {
+      "sector": "LOCAL",
+      "tarea": "L. - PUERTAS INTERIORES",
+      "estado": "Pendiente",
+      "corto": "Pendiente",
+      "resp": null
+     }
+    ]
    }
   ],
   "seLibera": [
@@ -950,8 +3611,8 @@ body {
     "confianza": "alta",
     "hitosVenc": 21,
     "hitosTot": 63,
-    "vencidas": 43,
-    "frenadas": 15
+    "vencidas": 21,
+    "frenadas": 44
    },
    {
     "obra": "GLOW 5",
@@ -965,8 +3626,8 @@ body {
     "confianza": "media",
     "hitosVenc": 2,
     "hitosTot": 20,
-    "vencidas": 22,
-    "frenadas": 12
+    "vencidas": 20,
+    "frenadas": 38
    },
    {
     "obra": "GLOW 6+",
@@ -980,8 +3641,8 @@ body {
     "confianza": "baja",
     "hitosVenc": 0,
     "hitosTot": 2,
-    "vencidas": 8,
-    "frenadas": 0
+    "vencidas": 1,
+    "frenadas": 1
    },
    {
     "obra": "GLOW 7",
@@ -995,8 +3656,8 @@ body {
     "confianza": "baja",
     "hitosVenc": 1,
     "hitosTot": 12,
-    "vencidas": 38,
-    "frenadas": 0
+    "vencidas": 0,
+    "frenadas": 35
    }
   ],
   "ppc": {
@@ -1043,7 +3704,8 @@ body {
      17,
      "1/6"
     ]
-   ]
+   ],
+   "oid": "glow3"
   },
   "causas": [
    {
@@ -1099,22 +3761,26 @@ body {
    {
     "obra": "GLOW 3",
     "fechas": 213,
-    "cierres": 11
+    "cierres": 11,
+    "oid": "glow3"
    },
    {
     "obra": "GLOW 5",
     "fechas": 195,
-    "cierres": 1
+    "cierres": 1,
+    "oid": "glow5"
    },
    {
     "obra": "GLOW 6+",
     "fechas": 443,
-    "cierres": 0
+    "cierres": 0,
+    "oid": "glow6"
    },
    {
     "obra": "GLOW 7",
     "fechas": 1222,
-    "cierres": 2
+    "cierres": 2,
+    "oid": "glow7"
    }
   ],
   "faltan": [
@@ -1166,22 +3832,54 @@ body {
   let D = {};
   try { D = JSON.parse($("seed").textContent) || {}; } catch (e) { D = {}; }
 
+  // ── filtro de obra, compartido por las dos vistas ──
+  const OBRAS = (D.mauricio?.obras || []).map((o) => o.oid);
+  let filtro = null;                       // null = todas
+  const deObra = (x) => !filtro || x.oid === filtro;
+
+  function chips(cont, cuenta, etiqueta) {
+    const vista = location.hash.replace("#", "").split("/")[0] || "obra";
+    const todas = (D.mauricio?.obras || []).reduce((a, o) => a + cuenta(o.oid), 0);
+    cont.innerHTML = `<span class="lbl">${etiqueta}</span>` +
+      `<a class="chip" href="#${vista}" aria-current="${filtro ? "false" : "true"}">Todas <i>${num(todas)}</i></a>` +
+      (D.mauricio?.obras || []).map((o) => {
+        const n = cuenta(o.oid);
+        return `<a class="chip${n ? "" : " mudo"}" href="#${vista}/${o.oid}"
+          aria-current="${filtro === o.oid ? "true" : "false"}">${esc(o.obra)} <i>${num(n)}</i></a>`;
+      }).join("");
+  }
+
   function pintarObra() {
     const M = D.mauricio; if (!M) return;
-    const T = M.totales;
-    $("obra-sub").textContent =
-      `${num(T.frenadas)} tareas frenadas en ${num(M.frentes.length)} frentes · ${num(T.vencidas)} vencidas en total`;
-    $("fr-sub").textContent = `${num(T.conCausa)} de ${num(T.frenadas)} con motivo escrito`;
+    const frentes = M.frentes.filter(deObra);
+    const obras = M.obras.filter(deObra);
+    const sum = (k) => obras.reduce((a, o) => a + (o[k] || 0), 0);
 
-    $("frentes").innerHTML = M.frentes.map((f) => {
-      const urge = !!f.vence;
-      return `<details class="frente${urge ? " urge" : ""}"${urge ? " open" : ""}>
+    chips($("f-obra"), (oid) => M.frentes.filter((f) => f.oid === oid).length, "Obra");
+
+    const enCursoN = (M.enCurso || []).filter(deObra).length;
+    const plu = (n, s, p) => `${num(n)} ${n === 1 ? s : p}`;
+    $("obra-sub").textContent = (filtro ? esc(obras[0].obra) + " · " : "Las 4 obras · ") +
+      `${plu(frentes.length, "frente", "frentes")} con tareas frenadas o vencidas · ` +
+      `${plu(enCursoN, "tarea", "tareas")} en ejecución hoy`;
+    $("fr-sub").textContent = `${num(sum("conCausa"))} de ${num(sum("frenadas"))} con motivo escrito`;
+
+    const clase = (t) => t.estado === "Bloqueada" ? "e-bloq"
+      : t.estado === "Restringido por Mano de Obra" ? "e-mo"
+      : t.estado === "Iniciada" ? "e-cur" : "e-ret";
+
+    $("frentes").innerHTML = frentes.length ? frentes.map((f, i) => {
+      const urge = (f.atrasoMax || 0) > 0;
+      const abrir = i < (filtro ? 3 : 2);
+      return `<details class="frente${urge ? " urge" : ""}"${abrir ? " open" : ""}>
         <summary class="fr-h">
-          <div class="fr-t"><b>${esc(f.obra)} · ${esc(f.sector)}</b>
-            <span>${num(f.items.length)} ${f.items.length === 1 ? "tarea" : "tareas"}</span></div>
+          <div class="fr-t"><b>${filtro ? "" : esc(f.obra) + " · "}${esc(f.sector)}</b>
+            <span>${num(f.items.length)} ${f.items.length === 1 ? "tarea" : "tareas"}${
+              f.enCurso ? ` · ${num(f.enCurso)} al día` : ""}</span></div>
           <div class="fr-n">
-            ${f.bloq ? `<span class="pill b">${num(f.bloq)} bloqueada${f.bloq > 1 ? "s" : ""}</span>` : ""}
-            ${f.restr ? `<span class="pill r">${num(f.restr)} restringida${f.restr > 1 ? "s" : ""}</span>` : ""}
+            ${f.atrasoMax ? `<span class="pill a">${num(f.atrasoMax)} d de atraso</span>` : ""}
+            ${f.frenadas ? `<span class="pill b">${num(f.frenadas)} frenada${f.frenadas > 1 ? "s" : ""}</span>` : ""}
+            ${f.sinFecha ? `<span class="pill s">${num(f.sinFecha)} sin fecha</span>` : ""}
             ${f.vence ? `<span class="pill v">vence ${fecha(f.vence)}</span>` : ""}
           </div>
           <span class="fr-go">›</span>
@@ -1189,26 +3887,76 @@ body {
         <div class="fr-body">${f.items.map((t) => `
           <div class="tarea">
             <div>
-              <b>${esc(t.tarea)}</b>
+              <b>${esc(t.tarea)}<span class="estado ${clase(t)}">${esc(t.corto)}</span></b>
               ${t.causa ? `<div class="causa">«${esc(t.causa)}»</div>` : ""}
               ${t.alcance ? `<div class="meta">falta ${esc(t.alcance)}</div>` : ""}
               <div class="meta">${t.resp ? esc(t.resp) : "sin responsable cargado"}
-                ${t.autor ? ` · ${esc(t.autor)}, ${fecha(t.fechaCausa)}` : ""}
-                ${!t.causa ? '<span class="falta">sin causa</span>' : ""}</div>
+                · ${t.fin ? (t.vencidaDias
+                    ? `<span class="atraso">venció ${fecha(t.fin)}, ${num(t.vencidaDias)} d</span>`
+                    : `vence ${fecha(t.fin)}`)
+                  : '<span class="atraso">sin fecha en el plan</span>'}
+                ${t.autor ? ` · ${esc(t.autor)}` : ""}
+                ${!t.causa && t.estado !== "Iniciada" ? '<span class="falta">sin causa</span>' : ""}</div>
             </div>
             <div class="pct">${t.avance != null ? num(t.avance) + " %" : "—"}</div>
           </div>`).join("")}</div>
       </details>`;
-    }).join("");
+    }).join("") : `<div class="vacio"><b>Ningún frente con fecha vencida o causa cargada</b>
+      ${filtro ? `${esc(obras[0].obra)} tiene ${num(obras[0].activas)} tareas en estado activo sobre
+      ${num(obras[0].tareas)}, y ${num(obras[0].sinFecha)} de ellas no tienen cronograma.
+      Lo que se está ejecutando figura abajo.` : "Sin frentes en el corte."}</div>`;
 
-    $("libera").innerHTML = (M.seLibera || []).map((x) => `
+    const curso = (M.enCurso || []).filter(deObra);
+    $("sec-curso").hidden = !curso.length;
+    $("curso-sub").textContent = `${num(curso.length)} ${curso.length === 1 ? "tarea" : "tareas"} dentro de su ventana de plan`;
+    $("curso").innerHTML = curso.map((t) => `
+      <div class="simple">
+        <div><b>${filtro ? "" : esc(t.obra) + " · "}${esc(t.sector)} · ${esc(t.tarea)}</b>
+          <div class="meta">${t.resp ? esc(t.resp) : "sin responsable cargado"} · hasta ${fecha(t.fin)}</div></div>
+        <div class="pct">${t.avance != null ? num(t.avance) + " %" : "—"}</div>
+      </div>`).join("");
+
+    const sp = (M.sinPlan || []).filter(deObra);
+    const spN = sp.reduce((a, x) => a + x.n, 0);
+    $("sec-sinplan").hidden = !spN;
+    $("sinplan-sub").textContent = `${num(spN)} ${spN === 1 ? "tarea" : "tareas"} marcadas activas sin cronograma cargado`;
+    $("sinplan").innerHTML = sp.map((x) => `
+      <details class="frente">
+        <summary class="fr-h">
+          <div class="fr-t"><b>${esc(x.obra)}</b>
+            <span>${num(x.n)} tareas en ${num(x.sectores)} ${x.sectores === 1 ? "sector" : "sectores"}</span></div>
+          <div class="fr-n"><span class="pill s">sin fecha</span></div>
+          <span class="fr-go">›</span>
+        </summary>
+        <div class="fr-body">${x.items.map((t) => `
+          <div class="tarea"><div><b>${esc(t.sector)} · ${esc(t.tarea)}</b>
+            <div class="meta">${esc(t.corto)}${t.resp ? " · " + esc(t.resp) : ""}</div></div>
+            <div class="pct"></div></div>`).join("")}</div>
+      </details>`).join("");
+
+    $("dato").innerHTML = obras.map((o) => `
+      <div class="dato">
+        <div class="cifras">
+          <div class="c"><b>${num(o.tareas)}</b><span>${filtro ? "tareas" : esc(o.obra)}</span></div>
+          <div class="c"><b>${num(o.activas)}</b><span>en estado activo</span></div>
+          <div class="c"><b>${num(o.tareasProblema)}</b><span>en esta vista</span></div>
+          <div class="c${o.conCausa ? "" : " mal"}"><b>${num(o.conCausa)}</b><span>con causa escrita</span></div>
+          <div class="c${o.conResp ? "" : " mal"}"><b>${num(o.conResp)}</b><span>con responsable</span></div>
+          <div class="c${o.sinFecha ? " mal" : ""}"><b>${num(o.sinFecha)}</b><span>sin fecha de plan</span></div>
+        </div>
+        ${o.activas < 10 ? `<div class="nota-dato">Sólo ${num(o.activas)} de sus ${num(o.tareas)} tareas
+          están marcadas como iniciadas o frenadas. Lo que pasa en obra no llega al tablero.</div>` : ""}
+        ${o.sinFecha > o.activas / 2 ? `<div class="nota-dato">${num(o.sinFecha)} de las ${num(o.activas)}
+          tareas activas no tienen fecha cargada, así que no se puede saber si van en tiempo.</div>` : ""}
+      </div>`).join("");
+
+    const lib = (M.seLibera || []).filter(deObra);
+    $("sec-libera").hidden = !lib.length;
+    $("libera").innerHTML = lib.map((x) => `
       <div class="mini">
         <h3>${esc(x.que)} · ${fecha(x.fecha)}</h3>
         <p>${esc(x.detalle)} <b>Libera ${num(x.tareas)} tareas de ${esc(x.obra)}</b> sin que nadie tenga que intervenir.</p>
-      </div>`).join("") || '<div class="mini"><p>Sin liberaciones previstas cargadas.</p></div>';
-
-    $("venc").innerHTML = `<div class="mini">${(M.vencidasPorObra || []).map((v) =>
-      `<div class="rowline"><span>${esc(v.obra)}</span><b>${num(v.n)}</b></div>`).join("")}</div>`;
+      </div>`).join("");
 
     $("falta-obra").innerHTML = (M.faltan || []).map((f) => `
       <div class="falta-row">
@@ -1220,28 +3968,49 @@ body {
 
   function pintarDir() {
     const S = D.sumer; if (!S) return;
-    const totFren = S.obras.reduce((a, o) => a + (o.frenadas || 0), 0);
-    $("dir-sub").textContent =
-      `${num(S.obras.length)} obras · ${num(totFren)} tareas frenadas · corte ${fecha(D.corte)}`;
+    const obras = S.obras.filter(deObra);
+
+    chips($("f-dir"), (oid) => {
+      const o = S.obras.find((x) => x.oid === oid);
+      return o ? (o.frenadas || 0) : 0;
+    }, "Obra");
+
+    const totFren = obras.reduce((a, o) => a + (o.frenadas || 0), 0);
+    $("dir-sub").textContent = filtro
+      ? `${esc(obras[0].obra)} · ${num(totFren)} tareas frenadas · corte ${fecha(D.corte)}`
+      : `${num(obras.length)} obras · ${num(totFren)} tareas frenadas · corte ${fecha(D.corte)}`;
 
     $("t-obras").innerHTML =
       `<thead><tr><th>Obra</th><th>PPC</th><th>Avance</th><th>Desvío</th>
         <th>Fin del plan</th><th>Proyectado</th><th>Hitos venc.</th></tr></thead><tbody>` +
-      S.obras.map((o) => `<tr>
+      obras.map((o) => `<tr>
         <td><span class="obra-n">${esc(o.obra)}</span></td>
         <td class="${o.ppc == null ? "na" : (o.ppc < 70 ? "crit" : "ok")}">${
           o.ppc == null ? "sin dato" : num(o.ppc) + " %"}</td>
-        <td>${num(o.avance)} %</td>
+        <td>${num(o.avance)} %<span class="met">${esc(o.avanceMetodo)}</span></td>
         <td class="crit">+${num(o.desvio)} d</td>
         <td>${fecha(o.finPlan)}</td>
         <td>${fecha(o.finProy)}<span class="conf ${o.confianza}">${esc(o.confianza)}</span></td>
         <td class="${o.hitosVenc ? "crit" : "na"}">${
           o.hitosTot ? `${num(o.hitosVenc)} de ${num(o.hitosTot)}` : "—"}</td>
       </tr>`).join("") + `</tbody>`;
+    $("t-aviso").innerHTML = filtro ? "" :
+      `<div class="aviso"><b>Las cuatro no se miden con la misma vara.</b>
+       GLOW 3 y 5 están en terminaciones y su avance sale de ponderar por la duración de cada tarea.
+       GLOW 6+ y 7 están en estructura, donde esa cuenta da 7 %, así que se pondera por la ventana
+       de calendario que el plan le da a cada etapa. Los dos primeros números y los dos segundos
+       no son comparables entre sí.</div>`;
 
     const P = S.ppc;
-    $("ppc-sub").textContent = `Sólo ${P.obra} carga partes semanales`;
-    $("ppc").innerHTML = `
+    const hayPPC = !filtro || filtro === P.oid;
+    $("sec-ppc").hidden = false;
+    if (!hayPPC) {
+      $("ppc-sub").textContent = "";
+      $("ppc").innerHTML = `<div class="vacio"><b>Sin PPC en esta obra</b>
+        El porcentaje de promesas cumplidas sale de los partes semanales. Sólo ${esc(P.obra)} los carga.</div>`;
+    } else {
+      $("ppc-sub").textContent = `Sólo ${P.obra} carga partes semanales`;
+      $("ppc").innerHTML = `
       <div class="ppc-top">
         <div><div class="ppc-big">${num(P.valor)} %</div>
           <div class="ppc-lbl">${esc(P.obra)} · saludable entre ${P.banda[0]} y ${P.banda[1]} %</div></div>
@@ -1258,22 +4027,25 @@ body {
             v >= 70 ? "var(--good)" : v >= 50 ? "var(--warning)" : "var(--critical)"}"></i></div>
           <span class="n">${num(v)} % · ${esc(f)}</span></div>`).join("")}</div>
       <div class="nota">${esc(P.lectura)}</div>`;
+    }
 
-    $("causas").innerHTML = S.causas.map((c) => `
+    $("causas").innerHTML = hayPPC ? S.causas.map((c) => `
       <div class="causa-row">
         <div class="causa-n${c.gestionable ? "" : " ext"}">${num(c.tareas)}</div>
         <div class="causa-t"><b>${esc(c.causa)}</b><span>en ${num(c.sectores)} ${
           c.sectores === 1 ? "sector" : "sectores"}</span></div>
         <div class="tag ${c.gestionable ? "g" : "e"}">${c.gestionable ? "Gestionable" : "Externa"}</div>
-      </div>`).join("");
+      </div>`).join("") : `<div class="vacio"><b>Sin causas escritas en esta obra</b>
+        Las causas salen de los comentarios de cada ítem. Sólo ${esc(P.obra)} los escribe.</div>`;
 
-    const mx = Math.max(...S.movimiento.map((m) => m.fechas), 1);
-    $("mov").innerHTML = `<div class="bars">${S.movimiento.map((m) => `
+    const mov = S.movimiento.filter((m) => !filtro || m.oid === filtro ||
+      (S.obras.find((o) => o.oid === filtro) || {}).obra === m.obra);
+    const mx = Math.max(...mov.map((m) => m.fechas), 1);
+    $("mov").innerHTML = `<div class="bars">${mov.map((m) => `
       <div class="bar"><span>${esc(m.obra)}</span>
         <div class="t"><i style="width:${m.fechas / mx * 100}%;background:var(--serious)"></i></div>
         <span class="n">${num(m.fechas)} / ${num(m.cierres)}</span></div>`).join("")}
-      </div><div class="nota">Fechas movidas contra tareas cerradas. <b>La actividad reciente de los tableros
-      es reprogramar, no ejecutar.</b></div>`;
+      </div><div class="nota">Fechas movidas contra tareas cerradas desde el 21 de agosto.</div>`;
 
     $("falta-dir").innerHTML = (S.faltan || []).map((f) => `
       <div class="falta-row">
@@ -1284,27 +4056,32 @@ body {
   }
 
   function ruta() {
-    const h = (location.hash || "").replace("#", "");
-    const esObra = h === "obra", esDir = h === "direccion";
+    const [vista, oid] = (location.hash || "").replace("#", "").split("/");
+    filtro = OBRAS.includes(oid) ? oid : null;
+    const esObra = vista === "obra", esDir = vista === "direccion";
     $("w-home").hidden = esObra || esDir;
     $("w-obra").hidden = !esObra;
     $("w-dir").hidden = !esDir;
     $("v-obra").setAttribute("aria-current", esObra ? "true" : "false");
     $("v-dir").setAttribute("aria-current", esDir ? "true" : "false");
+    const cola = filtro ? "/" + filtro : "";
+    $("v-obra").href = "#obra" + cola;
+    $("v-dir").href = "#direccion" + cola;
+    if (esObra) pintarObra();
+    if (esDir) pintarDir();
     scrollTo(0, 0);
   }
 
   $("corte").textContent = "Corte " + fecha(D.corte);
   if (D.mauricio) {
-    const T = D.mauricio.totales;
-    $("home-obra").textContent = `${num(T.frenadas)} frenadas · ${num(T.vencidas)} vencidas`;
+    const o = D.mauricio.obras;
+    const s = (k) => o.reduce((a, x) => a + (x[k] || 0), 0);
+    $("home-obra").textContent = `${num(s("frenadas"))} frenadas · ${num(s("vencidas"))} vencidas`;
   }
   if (D.sumer) {
     const s = D.sumer.obras.filter((o) => o.ppc != null);
     $("home-dir").textContent = `4 obras · PPC en ${s.length} de 4`;
   }
-  pintarObra();
-  pintarDir();
   addEventListener("hashchange", ruta);
   ruta();
 })();

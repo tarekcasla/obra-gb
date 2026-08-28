@@ -1,0 +1,92 @@
+[
+ {
+  "oid": "glow3",
+  "tarea": "PISO 10 - CARPETA CEMENTICIA",
+  "causa": "Esta sin terminar carpeta interior, por habilitaciones parciales de GAS.",
+  "familia": "Inspección de gas",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-08-06",
+  "alcance": "la carpeta interior",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 6 - REVESTIMIENTOS DE PARED PORCELANATO",
+  "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+  "familia": "Defensas de fachada",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-24",
+  "alcance": "cocina y baño del A, cocina del C",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 6 - REVESTIMIENTOS DE PISO PORCELANATO",
+  "causa": "Por defensas no se puede colocar cocina y baño del A y cocina del C",
+  "familia": "Defensas de fachada",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-24",
+  "alcance": "cocina y baño del A, cocina del C",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 2 - BANQUINAS",
+  "causa": "Solo faltará banquina del dpto A por tema de inspección de gas",
+  "familia": "Inspección de gas",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-17",
+  "alcance": "sólo la banquina del depto A",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 2 - REVESTIMIENTOS DE PARED PORCELANATO",
+  "causa": "Falta baño ppal del A por defensas.",
+  "familia": "Defensas de fachada",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-24",
+  "alcance": "baño principal del A",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 2 - REVESTIMIENTOS DE PISO PORCELANATO",
+  "causa": "2A - Cocina por gas y baño ppal por defensas. 2A Baños por defensas. 2C - Falta cocina por defensas.",
+  "familia": "Defensas de fachada",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-24",
+  "alcance": "cocina y baño del 2A, cocina del 2C",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 3 - REVESTIMIENTOS DE PISO PORCELANATO",
+  "causa": "Falta cocina del A por tema de inspeccion de GAS",
+  "familia": "Inspección de gas",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-02",
+  "alcance": "cocina del A",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PISO 1 - REVESTIMIENTOS DE PISO PORCELANATO",
+  "causa": "Hasta supuesta inspeccion del 31/08 de GAS no se puede terminar banquina del departamento A. SOLO COCINA",
+  "familia": "Inspección de gas",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-17",
+  "alcance": "sólo la cocina del depto A",
+  "parcial": true
+ },
+ {
+  "oid": "glow3",
+  "tarea": "PA - MAMPOSTERIA DE CIERRE DE PLENOS",
+  "causa": "Por falta de materiales de plomería no se pueden cerrar los plenos.",
+  "familia": "Falta de material",
+  "autor": "Luis Fontana",
+  "fechaCausa": "2026-07-21",
+  "alcance": null,
+  "parcial": false
+ }
+]
