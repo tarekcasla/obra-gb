@@ -7,6 +7,8 @@
     "oid": "glow3",
     "obra": "GLOW 3",
     "board": 18398874016,
+    "codigo": "BEI. 4515",
+    "etapa": "Terminaciones",
     "tareas": 778,
     "activas": 81,
     "frentes": 17,
@@ -15,12 +17,16 @@
     "vencidas": 21,
     "sinFecha": 1,
     "conCausa": 9,
-    "conResp": 59
+    "conResp": 59,
+    "atrasoMax": 28,
+    "enCurso": 28
    },
    {
     "oid": "glow5",
     "obra": "GLOW 5",
     "board": 18402983112,
+    "codigo": "NOG. 3837",
+    "etapa": "Terminaciones",
     "tareas": 540,
     "activas": 103,
     "frentes": 16,
@@ -29,12 +35,16 @@
     "vencidas": 20,
     "sinFecha": 1,
     "conCausa": 0,
-    "conResp": 103
+    "conResp": 103,
+    "atrasoMax": 59,
+    "enCurso": 18
    },
    {
     "oid": "glow6",
     "obra": "GLOW 6+",
     "board": 18398672766,
+    "codigo": "JPV. 4665",
+    "etapa": "Fundaciones",
     "tareas": 726,
     "activas": 3,
     "frentes": 1,
@@ -43,12 +53,16 @@
     "vencidas": 1,
     "sinFecha": 0,
     "conCausa": 0,
-    "conResp": 1
+    "conResp": 1,
+    "atrasoMax": 154,
+    "enCurso": 2
    },
    {
     "oid": "glow7",
     "obra": "GLOW 7",
     "board": 18402983267,
+    "codigo": "ATH. 2027",
+    "etapa": "Estructura",
     "tareas": 619,
     "activas": 37,
     "frentes": 0,
@@ -57,7 +71,9 @@
     "vencidas": 0,
     "sinFecha": 36,
     "conCausa": 0,
-    "conResp": 2
+    "conResp": 2,
+    "atrasoMax": 0,
+    "enCurso": 1
    }
   ],
   "frentes": [
@@ -3124,7 +3140,9 @@
     "hitosVenc": 21,
     "hitosTot": 63,
     "vencidas": 21,
-    "frenadas": 44
+    "frenadas": 44,
+    "codigo": "BEI. 4515",
+    "etapa": "Terminaciones"
    },
    {
     "obra": "GLOW 5",
@@ -3139,7 +3157,9 @@
     "hitosVenc": 2,
     "hitosTot": 20,
     "vencidas": 20,
-    "frenadas": 38
+    "frenadas": 38,
+    "codigo": "NOG. 3837",
+    "etapa": "Terminaciones"
    },
    {
     "obra": "GLOW 6+",
@@ -3154,7 +3174,9 @@
     "hitosVenc": 0,
     "hitosTot": 2,
     "vencidas": 1,
-    "frenadas": 1
+    "frenadas": 1,
+    "codigo": "JPV. 4665",
+    "etapa": "Fundaciones"
    },
    {
     "obra": "GLOW 7",
@@ -3169,7 +3191,9 @@
     "hitosVenc": 1,
     "hitosTot": 12,
     "vencidas": 0,
-    "frenadas": 35
+    "frenadas": 35,
+    "codigo": "ATH. 2027",
+    "etapa": "Estructura"
    }
   ],
   "ppc": {

@@ -10,6 +10,10 @@ NOMBRE = {"glow3": "GLOW 3", "glow5": "GLOW 5", "glow6": "GLOW 6+", "glow7": "GL
 BOARD  = {"glow3": 18398874016, "glow5": 18402983112, "glow6": 18398672766, "glow7": 18402983267}
 TOTAL  = {"glow3": 778, "glow5": 540, "glow6": 726, "glow7": 619}
 ACTIVAS= {"glow3": 81,  "glow5": 103, "glow6": 3,   "glow7": 37}
+CODIGO = {"glow3": "BEI. 4515", "glow5": "NOG. 3837",
+          "glow6": "JPV. 4665", "glow7": "ATH. 2027"}
+ETAPA  = {"glow3": "Terminaciones", "glow5": "Terminaciones",
+          "glow6": "Fundaciones", "glow7": "Estructura"}
 
 FRENADA = {"Bloqueada", "Retrasada", "Pendiente", "Restringido por Mano de Obra"}
 CORTO   = {"Bloqueada": "Bloqueada", "Retrasada": "Retrasada", "Pendiente": "Pendiente",
@@ -115,6 +119,7 @@ for oid in ("glow3", "glow5", "glow6", "glow7"):
     fr = [f for f in frentes if f["oid"] == oid]
     obrasM.append({
         "oid": oid, "obra": NOMBRE[oid], "board": BOARD[oid],
+        "codigo": CODIGO[oid], "etapa": ETAPA[oid],
         "tareas": TOTAL[oid], "activas": ACTIVAS[oid],
         "frentes": len(fr),
         "tareasProblema": sum(len(f["items"]) for f in fr),
@@ -123,6 +128,8 @@ for oid in ("glow3", "glow5", "glow6", "glow7"):
         "sinFecha": sum(1 for f in de if f["sinFecha"]),
         "conCausa": sum(1 for f in de if f["causa"]),
         "conResp": sum(1 for f in de if f["resp"]),
+        "atrasoMax": max([f["atrasoMax"] or 0 for f in fr] or [0]),
+        "enCurso": len([f for f in de if enCurso(f) and not problema(f)]),
     })
 
 d = dict(prev)
